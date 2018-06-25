@@ -25,6 +25,8 @@ public class AppConfig implements WebMvcConfigurer{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LoginInterceptor loginInterceptor = loginInterceptor();
+
+        //这里常规来说，需要屏蔽一些不需要验证的url，例如登录，登出，报错信息等
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
     }
 }
