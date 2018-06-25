@@ -3,6 +3,7 @@ package com.practice.login.login.controller;
 import com.practice.login.login.dao.AccountUserMapper;
 import com.practice.login.login.entity.AccountUser;
 import com.practice.login.login.vo.InfoResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/login")
+@Slf4j
 public class LoginController {
     @Autowired
     private AccountUserMapper accountUserMapper;
@@ -24,6 +26,7 @@ public class LoginController {
     public InfoResponse getUserInfo(){
         InfoResponse<List<AccountUser>> response = new InfoResponse<>();
         List<AccountUser> userList = accountUserMapper.selectAll();
+        log.info("size is {}",userList.size());
         response.setData(userList);
         return response;
     }
