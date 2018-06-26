@@ -20,7 +20,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         String  user = (String) request.getSession().getAttribute("user");
         if(user == null){
-            request.getSession().setAttribute("user","testUser");
+//            request.getSession().setAttribute("user","testUser");
+            response.setStatus(200);
+            response.setContentType("text/html;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print("该用户没有登录");
+            return false;
         }
         return true;
     }
