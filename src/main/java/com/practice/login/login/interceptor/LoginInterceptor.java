@@ -1,5 +1,6 @@
 package com.practice.login.login.interceptor;
 
+import com.practice.login.login.entity.AccountUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,9 +19,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         StringBuffer url = request.getRequestURL();
         log.info("url is {}",url);
 
-        String  user = (String) request.getSession().getAttribute("user");
+        AccountUser user = (AccountUser) request.getSession().getAttribute("user");
         if(user == null){
-//            request.getSession().setAttribute("user","testUser");
             response.setStatus(200);
             response.setContentType("text/html;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
