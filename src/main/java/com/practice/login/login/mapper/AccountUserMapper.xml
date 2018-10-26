@@ -43,10 +43,10 @@
     select user_id, user_name, mobile, `status`, create_user, create_time
     from account_user
   </select>
-  <insert id="insert" keyProperty="user_id" parameterType="com.practice.login.login.entity.AccountUser" useGeneratedKeys="true">
+  <insert id="insert"  parameterType="com.practice.login.login.entity.AccountUser" useGeneratedKeys="true" keyProperty="userId">
     insert into account_user (user_name, mobile, `status`,
-      create_user, create_time)
+      create_user)
     values (#{userName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{createUser,jdbcType=INTEGER})
   </insert>
 </mapper>
