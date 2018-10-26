@@ -3,9 +3,11 @@ package com.practice.login.login.controller;
 import com.alibaba.fastjson.JSON;
 import com.practice.login.login.dao.AccountUserMapper;
 import com.practice.login.login.entity.AccountUser;
+import com.practice.login.login.entity.TestForm;
 import com.practice.login.login.vo.InfoResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +51,13 @@ public class LoginController {
 
         infoResponse.setCode(0);
         infoResponse.setMessage("登录成功");
+        return infoResponse;
+    }
+
+    @PostMapping("/post_test")
+    public InfoResponse test(@RequestBody @Validated TestForm testForm){
+        InfoResponse infoResponse = new InfoResponse();
+        log.info("{}",JSON.toJSON(testForm));
         return infoResponse;
     }
 }
