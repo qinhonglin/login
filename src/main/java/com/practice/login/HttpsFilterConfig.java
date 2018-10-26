@@ -13,11 +13,12 @@ import java.io.IOException;
 /**
  * 本来是想用来转https的
  * 但是这个过滤发生在https之后，所以并没有用
+ * 额，好像确实有用
  * @author qinhonglin
  * @date 2018/7/3
  */
-@Configuration
-@WebFilter
+//@Configuration
+//@WebFilter
 public class HttpsFilterConfig extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
