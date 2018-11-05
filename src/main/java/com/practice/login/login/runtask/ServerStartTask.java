@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
 /**
  * @author qinhonglin
  * @date 2018/9/10
@@ -25,22 +26,23 @@ public class ServerStartTask implements CommandLineRunner{
     public void run(String... args) throws Exception {
         log.info("======================123123123=======================");
         // Instantiate message consumer
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(GROUP_NAME);
-        // Subscribe topics
-        consumer.subscribe("TopicTest", "TagA");
-        // Register message listener
-        consumer.registerMessageListener(new MessageListenerConcurrently() {
-            @Override
-            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> messages, ConsumeConcurrentlyContext context) {
-                for (MessageExt message : messages) {
-                    // Print approximate delay time period
-                    log.info("Receive message[msgId=" + message.getMsgId() + "] "
-                            + (System.currentTimeMillis() - message.getStoreTimestamp()) + "ms later");
-                }
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-            }
-        });
-        // Launch consumer
-        consumer.start();
+//        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(GROUP_NAME);
+//        // Subscribe topics
+//        consumer.subscribe("TopicTest", "TagA");
+//        consumer.setNamesrvAddr("192.168.233.128:9876");
+//        // Register message listener
+//        consumer.registerMessageListener(new MessageListenerConcurrently() {
+//            @Override
+//            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> messages, ConsumeConcurrentlyContext context) {
+//                for (MessageExt message : messages) {
+//                    // Print approximate delay time period
+//                    log.info("Receive message[msgId=" + message.getMsgId() + "] "
+//                            + (System.currentTimeMillis() - message.getStoreTimestamp()) + "ms later");
+//                }
+//                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+//            }
+//        });
+//        // Launch consumer
+//        consumer.start();
     }
 }

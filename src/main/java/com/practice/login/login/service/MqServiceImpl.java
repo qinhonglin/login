@@ -20,25 +20,22 @@ import java.io.UnsupportedEncodingException;
 @Slf4j
 public class MqServiceImpl implements MqService {
 
-    private final static String GROUP_NAME = "delay_queue";
+    private final static String GROUP_NAME = "CentOSqin2";
 
     @Override
-    public SendResult sendMq(String message) throws MQClientException, RemotingException, InterruptedException, MQBrokerException, UnsupportedEncodingException {
+    public SendResult sendMq(String message) throws MQClientException, RemotingException, InterruptedException, MQBrokerException {
         //Instantiate with a producer group name.
-        DefaultMQProducer producer = new
-                DefaultMQProducer(GROUP_NAME);
+        DefaultMQProducer producer = new DefaultMQProducer(GROUP_NAME);
         // Specify name server addresses.
-        producer.setNamesrvAddr("localhost:9876");
+        producer.setNamesrvAddr("192.168.233.128:9876");
+//        producer.setInstanceName(RunTimeUtil.getRocketMqUniqeInstanceName());
         //Launch the instance.
         producer.start();
         //Create a message instance, specifying topic, tag and message body.
-        Message msg = new Message("TopicTest",
-                "TagA",
-                message.getBytes(RemotingHelper.DEFAULT_CHARSET)
-        );
+        Message msg = new Message("topic_test_2", "TagA", "KeyA",message.getBytes());
         //Call send message to deliver message to one of brokers.
         SendResult sendResult = producer.send(msg);
-        log.info("%s%n", sendResult);
+        log.info("{}", sendResult);
         //Shut down once the producer instance is not longer in use.
         producer.shutdown();
         return sendResult;
