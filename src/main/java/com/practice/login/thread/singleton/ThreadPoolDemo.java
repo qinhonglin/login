@@ -21,6 +21,7 @@ public class ThreadPoolDemo {
 
     private static class SingletonThreadPool{
 
+        //其实这里最大线程和空闲线程数一样的话，队列和空闲时间是没有意义的
         private static ExecutorService executor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE,
                 CORE_POOL_SIZE,
