@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.login.login.dao.ConstomerUserMapper">
+  <resultMap id="BaseResultMap" type="com.practice.login.login.entity.ConstomerUser">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="userName" jdbcType="CHAR" property="username" />
+    <result column="passWord" jdbcType="CHAR" property="password" />
+    <result column="usersex" jdbcType="CHAR" property="usersex" />
+    <result column="nick_name" jdbcType="CHAR" property="nickName" />
+  </resultMap>
+  <sql id="BaseColumns">
+    id,userName,passWord,usersex,nick_name
+  </sql>
+  <insert id="insert" parameterType="com.practice.login.login.entity.ConstomerUser">
+    insert into constomer_users (id, userName, passWord, 
+      usersex, nick_name)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
+      #{usersex,jdbcType=CHAR}, #{nickName,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.practice.login.login.entity.ConstomerUser">
+    insert into constomer_users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="password != null">
+        passWord,
+      </if>
+      <if test="usersex != null">
+        usersex,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="usersex != null">
+        #{usersex,jdbcType=CHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="Integer">
+    select
+    <include refid="BaseColumns"/>
+    from
+    constomer_users
+    where
+    id = #{id}
+  </select>
+</mapper>
