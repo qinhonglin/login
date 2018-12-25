@@ -25,7 +25,7 @@ public class ServerStartTask implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
         log.info("======================123123123=======================");
-        // Instantiate message consumer
+//        // Instantiate message consumer
 //        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(GROUP_NAME);
 //        // Subscribe topics
 //        consumer.subscribe("TopicTest", "TagA");

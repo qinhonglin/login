@@ -1,22 +1,18 @@
 package com.practice.login.thread.controller;
 
-import com.practice.login.login.dao.AccountUserMapper;
 import com.practice.login.login.dao.ConstomerUserMapper;
-import com.practice.login.login.entity.AccountUser;
 import com.practice.login.login.entity.ConstomerUser;
 import com.practice.login.thread.singleton.ThreadPoolDemo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 /**
  * @author qinhonglin
@@ -31,6 +27,11 @@ public class ThreadTestController {
 
     @Autowired
     private ConstomerUserMapper constomerUserMapper;
+
+    //使用这种模式获得线程池更加方便一些，利用spring创建单例的特性，并且在config类中，配置文件的内容也可以正常生效
+    @Autowired
+    @Qualifier("asyncExecutor")
+    private ExecutorService asyncExecutor;
 
     @GetMapping("/test")
     public void getIntanceTest(){
@@ -90,6 +91,7 @@ public class ThreadTestController {
 
         ConstomerUser user = (ConstomerUser) futureTasks.get(0).get();
         log.info("await start");
+        //这里还可以在await中加上限制时间
         countDownLatch.await();
         log.info("await end");
         log.info(user.toString());
@@ -105,4 +107,38 @@ public class ThreadTestController {
         countDownLatch.countDown();
         return task;
     }
+
+    @GetMapping("/dosometh3")
+    public void doSomeThing3() throws ExecutionException, InterruptedException {
+        log.info("doSomeThing3 is start");
+
+        Integer userId = 4;
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+
+        List<FutureTask<Object>> futureTasks = new ArrayList<>();
+        futureTasks.add(this.getUserById(userId,countDownLatch));
+        FutureTask<Object> numberTask = new FutureTask<>(
+                () -> {
+                    Thread.sleep(5000);
+                    countDownLatch.countDown();
+                    return userId;
+                }
+        );
+        futureTasks.add(numberTask);
+
+        for(FutureTask task:futureTasks){
+            asyncExecutor.submit(task);
+        }
+
+        ConstomerUser user = (ConstomerUser) futureTasks.get(0).get();
+        log.info("await start");
+        //这里还可以在await中加上限制时间
+        countDownLatch.await();
+        log.info("await end");
+        log.info(user.toString());
+        log.info(futureTasks.get(1).get().toString());
+
+    }
+
+
 }
